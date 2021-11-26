@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +38,11 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.open_rating).setOnClickListener {
             val intent = Intent(this, RatingActivity::class.java)
+            startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.open_lessons).setOnClickListener {
+            val intent = Intent(this, LessonListActivity::class.java)
             startActivity(intent)
         }
     }
