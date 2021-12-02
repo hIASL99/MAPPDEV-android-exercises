@@ -3,6 +3,7 @@ package at.fh.mappdev.loggingviewsandactivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
@@ -37,6 +38,11 @@ class LessonViewHolder(itemView: View, val clickListener: (lesson: Lesson) -> Un
     fun bindItem(lesson: Lesson) {
         itemView.findViewById<TextView>(R.id.item_lesson_name).text = lesson.name
         itemView.findViewById<TextView>(R.id.item_lesson_date).text = lesson.date
+        itemView.findViewById<RatingBar>(R.id.item_lesson_avg_rating_bar).rating = lesson.ratingAverage().toFloat()
+        itemView.findViewById<TextView>(R.id.item_lesson_topic).text = lesson.topic
+        itemView.findViewById<TextView>(R.id.item_lesson_lecturers).text = lesson.lecturers.joinToString { it.name }
+        itemView.findViewById<TextView>(R.id.item_lesson_rating_count).text = lesson.ratings.size.toString()
+
         itemView.setOnClickListener {
             clickListener(lesson)
         }
