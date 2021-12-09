@@ -11,7 +11,8 @@
         android:theme="@style/Theme.LoggingViewsAndActivity">
         <activity
             android:name=".LessonRatingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".LessonListActivity"/>
         <activity android:name=".LessonListActivity"
             android:parentActivityName=".MainActivity"/>
         <activity android:name=".RatingActivity" />

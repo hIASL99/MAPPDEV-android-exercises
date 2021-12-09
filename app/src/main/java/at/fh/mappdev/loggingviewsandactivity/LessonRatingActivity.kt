@@ -5,13 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
+import android.widget.*
 import at.fh.mappdev.loggingviewsandactivity.LessonListActivity.Companion.EXTRA_LESSON_ID
 import at.fh.mappdev.loggingviewsandactivity.LessonRepository.lessonById
 import at.fh.mappdev.loggingviewsandactivity.LessonRepository.rateLesson
+import com.bumptech.glide.Glide
 
 class LessonRatingActivity : AppCompatActivity() {
 
@@ -27,7 +25,6 @@ class LessonRatingActivity : AppCompatActivity() {
 
         val lessonID = intent.getStringExtra(EXTRA_LESSON_ID)
         var lessonIdAsInt = 0
-
         if (lessonID != null){
 
             lessonById(
@@ -35,9 +32,23 @@ class LessonRatingActivity : AppCompatActivity() {
                 success = {
                     // handle success
                     val thislesson = it
-                    val textView = findViewById<TextView>(R.id.lesson_rating_header)
-                    textView.text = thislesson.name;
+                    title = thislesson.name;
                     lessonIdAsInt = lessonID.toInt()
+
+                    //image loading
+                    val imageView = findViewById<ImageView>(R.id.lesson_image)
+                    Glide.with(this)
+                        .load(thislesson.imageUrl)
+                        .into(imageView)
+                    findViewById<TextView>(R.id.lesson_name).text = title;
+                    findViewById<RatingBar>(R.id.lesson_avg_ratingBar).rating = it.ratingAverage().toFloat();
+                    val rating = it.ratingAverage().format(2)
+                    findViewById<TextView>(R.id.lesson_avg_ratingText).text = rating
+
+                    val feedback = findFirstEntry(it.ratings)
+
+
+                    findViewById<TextView>(R.id.lesson_ViewFeedback).text = feedback
                 },
                 error = {
                     // handle error
@@ -59,8 +70,6 @@ class LessonRatingActivity : AppCompatActivity() {
                 success = {
                     // handle success
                     val thislesson = it
-                    val textView = findViewById<TextView>(R.id.lesson_rating_header)
-                    textView.text = thislesson.name;
                 },
                 error = {
                     // handle error
@@ -76,6 +85,13 @@ class LessonRatingActivity : AppCompatActivity() {
         }
 
     }
+    private fun Double.format(digits: Int) = "%.${digits}f".format(this)
+    private fun findFirstEntry(list:List<LessonRating>, i:Int = 0):String{
+        if(list.size <= i) return ""
 
+        if(list[i].feedback != "") return list[i].feedback
+
+        return findFirstEntry(list, i+1)
+    }
 
 }

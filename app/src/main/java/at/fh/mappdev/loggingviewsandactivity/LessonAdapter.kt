@@ -3,9 +3,11 @@ package at.fh.mappdev.loggingviewsandactivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class LessonAdapter(val clickListener: (lesson: Lesson) -> Unit): RecyclerView.Adapter<LessonViewHolder>() {
 
@@ -42,7 +44,10 @@ class LessonViewHolder(itemView: View, val clickListener: (lesson: Lesson) -> Un
         itemView.findViewById<TextView>(R.id.item_lesson_topic).text = lesson.topic
         itemView.findViewById<TextView>(R.id.item_lesson_lecturers).text = lesson.lecturers.joinToString { it.name }
         itemView.findViewById<TextView>(R.id.item_lesson_rating_count).text = lesson.ratings.size.toString()
-
+        val imageView = itemView.findViewById<ImageView>(R.id.item_lesson_imageView)
+        Glide.with(itemView)
+            .load(lesson.imageUrl)
+            .into(imageView)
         itemView.setOnClickListener {
             clickListener(lesson)
         }

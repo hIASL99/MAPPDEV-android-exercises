@@ -14,7 +14,8 @@ class LessonRating(val ratingValue: Double, val feedback: String)
 @JsonClass(generateAdapter = true)
 class Lesson(
     val id: String, val name: String, val date: String, val topic: String,
-    val type: LessonType, val lecturers: List<Lecturer>, val ratings: MutableList<LessonRating>
+    val type: LessonType, val lecturers: List<Lecturer>, val ratings: MutableList<LessonRating>,
+    val imageUrl: String = ""
 ) {
     fun ratingAverage(): Double {
         var returnvalue = 0.0
