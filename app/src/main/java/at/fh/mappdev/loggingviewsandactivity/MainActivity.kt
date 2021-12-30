@@ -1,22 +1,28 @@
 package at.fh.mappdev.loggingviewsandactivity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import at.fh.mappdev.loggingviewsandactivity.SettingsActivity.Companion.DARKMODE
+import at.fh.mappdev.loggingviewsandactivity.SettingsActivity.Companion.USERNAME
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.v("MyActivity", "onCreate")
-        Log.d("MyActivity", "onCreate")
-        Log.i("MyActivity", "onCreate")
-        Log.w("MyActivity", "onCreate")
-        Log.e("MyActivity", "onCreate")
+
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+        val darkMode = sharedPreferences.getBoolean(DARKMODE, false)
+        if (darkMode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
 
        // binding.shareMain.setOnClickListener {
         findViewById<Button>(R.id.share_main).setOnClickListener {
@@ -45,6 +51,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LessonListActivity::class.java)
             startActivity(intent)
         }
+        findViewById<Button>(R.id.open_settings).setOnClickListener {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onStart() {
@@ -55,6 +65,11 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.w("MyActivity", "onResume")
+
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString(USERNAME, null)
+        findViewById<TextView>(R.id.main_txt_username).text = username
+
     }
 
     override fun onPause() {

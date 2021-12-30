@@ -7,9 +7,10 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="share_main,open_views,open_rating,open_lessons"
+        app:constraint_referenced_ids="share_main,open_views,open_rating,open_lessons,open_settings"
         app:flow_horizontalGap="20dp"
         app:flow_maxElementsWrap="3"
         app:flow_verticalGap="10dp"
@@ -53,5 +54,21 @@
         android:text="Share"
         tools:layout_editor_absoluteX="152dp"
         tools:layout_editor_absoluteY="342dp" />
+
+    <Button
+        android:id="@+id/open_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings" />
+
+    <TextView
+        android:id="@+id/main_txt_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/flow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,7 @@ class LessonRatingActivity : AppCompatActivity() {
 
     companion object{
         val EXTRA_ADDED_OR_EDITED_RESULT = "EXTRA_ADDED_OR_EDITED_RESULT"
+        val EXTRA_LESSON_NAME = "EXTRA_LESSON_NAME"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +26,7 @@ class LessonRatingActivity : AppCompatActivity() {
 
         val lessonID = intent.getStringExtra(EXTRA_LESSON_ID)
         var lessonIdAsInt = 0
+        var lessonName = ""
         if (lessonID != null){
 
             lessonById(
@@ -32,14 +34,18 @@ class LessonRatingActivity : AppCompatActivity() {
                 success = {
                     // handle success
                     val thislesson = it
-                    title = thislesson.name;
+                    title = thislesson.name
+                    lessonName = thislesson.name
                     lessonIdAsInt = lessonID.toInt()
 
-                    //image loading
+                    // image loading
                     val imageView = findViewById<ImageView>(R.id.lesson_image)
+
                     Glide.with(this)
                         .load(thislesson.imageUrl)
                         .into(imageView)
+
+                    // text in view
                     findViewById<TextView>(R.id.lesson_name).text = title;
                     findViewById<RatingBar>(R.id.lesson_avg_ratingBar).rating = it.ratingAverage().toFloat();
                     val rating = it.ratingAverage().format(2)
@@ -57,6 +63,12 @@ class LessonRatingActivity : AppCompatActivity() {
             )
         }
 
+        findViewById<Button>(R.id.rating_btn_note).setOnClickListener {
+            val noteIntent = Intent(this, LessonNoteActivity::class.java)
+            noteIntent.putExtra(EXTRA_LESSON_ID, lessonID)
+            noteIntent.putExtra(EXTRA_LESSON_NAME, lessonName)
+            startActivityForResult(noteIntent, LessonNoteActivity.ADD_NOTE_REQUEST)
+        }
 
         findViewById<Button>(R.id.rate_lesson).setOnClickListener {
             val ratingBar = findViewById<RatingBar>(R.id.lesson_rating_bar)
@@ -84,8 +96,10 @@ class LessonRatingActivity : AppCompatActivity() {
 
         }
 
+
     }
     private fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
     private fun findFirstEntry(list:List<LessonRating>, i:Int = 0):String{
         if(list.size <= i) return ""
 

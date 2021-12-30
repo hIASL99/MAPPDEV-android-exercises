@@ -1,5 +1,7 @@
 package at.fh.mappdev.loggingviewsandactivity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.JsonClass
 
 
@@ -30,4 +32,7 @@ class Lesson(
 @JsonClass(generateAdapter = true)
 class Lecturer(val name: String)
 
+@Entity
+class LessonNote(@PrimaryKey val id:String, val lessonName:String, val text:String){
 
+}

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="at.fh.mappdev.loggingviewsandactivity">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,11 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoggingViewsAndActivity">
         <activity
+            android:name=".LessonNoteActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+        <activity
             android:name=".LessonRatingActivity"
             android:exported="false"
-            android:parentActivityName=".LessonListActivity"/>
-        <activity android:name=".LessonListActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".LessonListActivity" />
+        <activity
+            android:name=".LessonListActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".RatingActivity" />
         <activity android:name=".ViewsActivity" />
         <activity

@@ -1,6 +1,8 @@
 package at.fh.mappdev.loggingviewsandactivity
 
 
+import android.content.Context
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -154,6 +156,17 @@ object LessonRepository {
         })
 
     }
-
+    fun addLessonNote(context: Context, lessonNote: LessonNote) {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        db.lessonNoteDao.insert(lessonNote)
+    }
+    fun findLessonNoteById(context: Context, id: String):LessonNote {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        val note = db.lessonNoteDao.getNoteById(id)
+        note?.let{return it}
+        return LessonNote("","","")
+    }
 
 }
