@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,8 @@ class LessonListActivity : AppCompatActivity() {
         val EXTRA_LESSON_ID = "LESSON_ID_EXTRA"
         val ADD_OR_EDIT_RATING_REQUEST = 1
     }
+    private val viewModel: LessonListViewModel by viewModels()
+
     val lessonAdapter = LessonAdapter() {
         Toast.makeText(this, "Lesson with name: ${it.id} has been clicked", Toast.LENGTH_LONG).show()
 
@@ -26,7 +29,7 @@ class LessonListActivity : AppCompatActivity() {
     }
 
     fun updateList(){
-        LessonRepository.lessonsList(
+        /*LessonRepository.lessonsList(
             success = {
                 // handle success
                 lessonAdapter.updateList(it)
@@ -35,7 +38,8 @@ class LessonListActivity : AppCompatActivity() {
                 // handle error
                 Log.e("API ERROR","API ERROR")
             }
-        )
+        )*/
+        viewModel.refresh()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +52,20 @@ class LessonListActivity : AppCompatActivity() {
         recyclerView.adapter = lessonAdapter
         parseJson()
         SleepyAsyncTask().execute()
+
+        viewModel.lessons.observe(this) {
+            when (it) {
+                is NetworkResult.Success -> {
+                    lessonAdapter.updateList(it.value)
+                }
+                is NetworkResult.Error -> {
+                    Toast.makeText(this, it.errorMessage, Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }
+        }
     }
+
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ADD_OR_EDIT_RATING_REQUEST && resultCode == Activity.RESULT_OK) {
@@ -60,6 +77,7 @@ class LessonListActivity : AppCompatActivity() {
 
         }
     }
+
     fun parseJson (){
         val json = """
             {

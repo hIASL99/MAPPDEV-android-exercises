@@ -12,8 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LoggingViewsAndActivity">
         <activity
+            android:name=".ViewModelActivity"
+            android:exported="false" />
+        <activity
             android:name=".LessonNoteActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"

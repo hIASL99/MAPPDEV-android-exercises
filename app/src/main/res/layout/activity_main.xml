@@ -10,7 +10,7 @@
         android:id="@+id/flow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="share_main,open_views,open_rating,open_lessons,open_settings"
+        app:constraint_referenced_ids="share_main,open_views,open_rating,open_lessons,open_settings,open_viewmodel"
         app:flow_horizontalGap="20dp"
         app:flow_maxElementsWrap="3"
         app:flow_verticalGap="10dp"
@@ -60,6 +60,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings" />
+
+    <Button
+        android:id="@+id/open_viewmodel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ViewModel"
+        tools:layout_editor_absoluteX="283dp"
+        tools:layout_editor_absoluteY="306dp" />
 
     <TextView
         android:id="@+id/main_txt_username"

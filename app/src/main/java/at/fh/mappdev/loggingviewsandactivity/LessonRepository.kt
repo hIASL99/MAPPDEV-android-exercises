@@ -3,6 +3,8 @@ package at.fh.mappdev.loggingviewsandactivity
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -169,4 +171,36 @@ object LessonRepository {
         return LessonNote("","","")
     }
 
+    fun findLessonNoteByIdLiveData(context: Context, id: String): LiveData<LessonNote?> {
+        val applicationContext = context.applicationContext
+        val db = LessonNoteDatabase.getDatabase(applicationContext)
+        return db.lessonNoteDao.selectWithLiveData(id)
+    }
+
+    fun lessonsListWithLiveData(): LiveData<NetworkResult<List<Lesson>>> {
+        val liveData = MutableLiveData<NetworkResult<List<Lesson>>>()
+        APIInterface.LessonApi.retrofitService.lessons().enqueue(object : Callback<List<Lesson>> {
+            override fun onFailure(call: Call<List<Lesson>>, t: Throwable) {
+                liveData.value = NetworkResult.Error("Something went wrong")
+            }
+
+            override fun onResponse(call: Call<List<Lesson>>, response: Response<List<Lesson>>) {
+                val responseBody = response.body()
+                if (response.isSuccessful && responseBody != null) {
+                    liveData.value = NetworkResult.Success(responseBody)
+                } else {
+                    liveData.value = NetworkResult.Error("Something went wrong")
+                }
+            }
+
+        })
+        return liveData
+    }
+
+}
+sealed class NetworkResult<R> {
+    data class Success<T>(
+        val value: T
+    ): NetworkResult<T>()
+    data class Error<Nothing>(val errorMessage: String): NetworkResult<Nothing>()
 }

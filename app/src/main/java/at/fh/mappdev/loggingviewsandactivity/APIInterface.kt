@@ -1,5 +1,6 @@
 package at.fh.mappdev.loggingviewsandactivity
 
+import androidx.lifecycle.LiveData
 import com.squareup.moshi.Moshi
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -32,5 +33,6 @@ class APIInterface {
         @GET("/lessons/{id}/")
         @Headers("X-API-KEY: ${LessonApi.accessToken}")
         fun lessonById(@Path("id") lessonId: String): Call<Lesson>
+
     }
 }

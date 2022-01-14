@@ -1,5 +1,6 @@
 package at.fh.mappdev.loggingviewsandactivity
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,4 +14,7 @@ interface LessonNoteDao {
 
     @Query("SELECT * FROM LessonNote WHERE id = :id")
     fun getNoteById(id:String):LessonNote?
+
+    @Query("SELECT * FROM LessonNote WHERE id = :id")
+    fun selectWithLiveData(id:String): LiveData<LessonNote?>
 }
